@@ -2,27 +2,14 @@ package com.dropit.DeliveryAPI.Controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 
 import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.*;
 
 import com.dropit.DeliveryAPI.Model.Address;
 import com.dropit.DeliveryAPI.Model.Delivery;
@@ -77,16 +64,16 @@ public class ApiController {
 			if (fromDate.compareTo(toDate) > 1) {
 				timeslots = responseTimeslotJson.stream()
 								.filter(date -> responseExcludeHoliday.stream()
-															.filter(holidayEntry -> holidayEntry.get("date").equals(date.get("date")))
-															.collect(Collectors.toList())
-															.isEmpty())
+												.filter(holidayEntry -> holidayEntry.get("date").equals(date.get("date")))
+												.collect(Collectors.toList())
+												.isEmpty())
 								.map(date -> new Timeslot(textParseToDate(date.get("date"))))
 								.collect(Collectors.toList());
 			} else 
 			
 			timeslots = responseTimeslotJson.stream()
-									.map(date -> new Timeslot(textParseToDate(date.get("date"))))
-									.collect(Collectors.toList());
+							.map(date -> new Timeslot(textParseToDate(date.get("date"))))
+							.collect(Collectors.toList());
 			
 			
 		} catch (InterruptedException | ExecutionException e) {
